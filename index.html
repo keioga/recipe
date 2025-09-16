@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>レシピ共有アプリ</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+      .card { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+      .eyecatch { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>共有されたレシピ</h1>
+    <div id="shared-content">
+        <p>共有された情報がここに表示されます。</p>
+    </div>
+
+    <script>
+      // Service Workerを登録
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('service-worker.js')
+            .then(reg => console.log('SW登録成功', reg.scope))
+            .catch(err => console.log('SW登録失敗', err));
+      }
+      
+      // 共有されたデータを表示するJavaScript
+      document.addEventListener('DOMContentLoaded', () => {
+          const params = new URLSearchParams(window.location.search);
+          const title = params.get('title');
+          const url = params.get('url');
+
+          const sharedContentDiv = document.getElementById('shared-content');
+
+          if (title && url) {
+              sharedContentDiv.innerHTML = `
+                  <h2>${title}</h2>
+                  <p>元記事のURL: <a href="${url}" target="_blank">${url}</a></p>
+              `;
+          }
+      });
+    </script>
+</body>
+</html>
