@@ -15,12 +15,15 @@
         <p>共有された情報がここに表示されます。</p>
     </div>
 
-    <small>ver0.0002</small>
+    <small>ver0.0003</small>
 
     <script>
       // Service Workerを登録
       if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/recipe/service-worker.js')
+        //   navigator.serviceWorker.register('/recipe/service-worker.js')
+        navigator.serviceWorker.register('/recipe/service-worker.js', {
+          scope: '/recipe/'
+        })
             .then(reg => console.log('SW登録成功', reg.scope))
             .catch(err => console.log('SW登録失敗', err));
       }
